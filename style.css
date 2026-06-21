@@ -51,6 +51,12 @@ em{ font-style:italic; color:#8FD8FF; font-weight:300; }
 @keyframes fadeUp{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:none;} }
 .reveal{ animation:fadeUp .7s cubic-bezier(.22,1,.36,1) both; }
 
+/* ===== Раскрытие страницы (после наезда с главной) ===== */
+@keyframes pageReveal{ from{ opacity:0; transform:scale(1.05); filter:blur(5px);} to{ opacity:1; transform:none; filter:none;} }
+/* всё, кроме навбара, плавно «раскрывается» при загрузке раздела */
+body > :not(.nav){ animation:pageReveal .55s cubic-bezier(.22,1,.36,1) both; }
+@media (prefers-reduced-motion:reduce){ body > :not(.nav){ animation:none; } }
+
 /* ===== Подвал ===== */
 .foot{ margin-top:80px; padding:28px clamp(20px,5vw,72px); border-top:1px solid var(--border);
   display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
