@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Игроки — Спортивное агентство</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 clamp(20px,5vw,72px); }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:900px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .grid{ grid-template-columns:1fr; } }
+  .pl{ background:var(--glass); border:1px solid var(--border); border-radius:18px; overflow:hidden; transition:transform .3s, border-color .3s; }
+  .pl:hover{ transform:translateY(-4px); border-color:rgba(95,198,255,.35); }
+  .pl__ph{ position:relative; aspect-ratio:3/4; background:linear-gradient(160deg, rgba(95,198,255,.10), rgba(162,128,255,.06)), #0C0F1A; display:flex; align-items:flex-end; }
+  .pl__ph .num{ position:absolute; top:14px; right:16px; font-family:'Unbounded'; font-size:34px; color:rgba(95,198,255,.4); }
+  .pl__ph .tag{ position:absolute; bottom:14px; left:16px; font-family:'JetBrains Mono'; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); opacity:.7; }
+  .pl__b{ padding:16px 20px 20px; display:flex; justify-content:space-between; align-items:flex-end; gap:12px; }
+  .pl__name{ font-family:'Unbounded'; font-weight:500; font-size:17px; margin-bottom:6px; }
+  .pl__pos{ font-family:'JetBrains Mono'; font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); }
+  .pl__club{ font-size:12px; color:var(--muted); text-align:right; line-height:1.4; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo"><span class="dot"></span> АГЕНТСТВО</a>
+    <ul class="nav__links">
+      <li><a href="players.html" class="on">Игроки</a></li>
+      <li><a href="contracts.html">Контракты</a></li>
+      <li><a href="cases.html">Кейсы</a></li>
+      <li><a href="countries.html">Страны</a></li>
+      <li><a href="team.html">Команда</a></li>
+      <li><a href="about.html">О нас</a></li>
+    </ul>
+    <a href="about.html" class="nav__cta">Связаться</a>
+  </nav>
+
+  <header class="head reveal">
+    <div class="head__k">Раздел · Игроки</div>
+    <h1 class="head__h">Наши <em>игроки</em></h1>
+    <p class="head__sub">Карточки игроков с позицией, клубом и статистикой. Раздел наполняется через админку — фото и данные добавляет агентство.</p>
+  </header>
+
+  <main class="wrap">
+    <div class="grid reveal" style="animation-delay:.08s">
+      <div class="pl"><div class="pl__ph"><span class="num">9</span><span class="tag">реальное фото</span></div><div class="pl__b"><div><div class="pl__name">Имя Фамилия</div><div class="pl__pos">Нападающий</div></div><div class="pl__club">Клуб<br/>Лига</div></div></div>
+      <div class="pl"><div class="pl__ph"><span class="num">10</span><span class="tag">реальное фото</span></div><div class="pl__b"><div><div class="pl__name">Имя Фамилия</div><div class="pl__pos">Полузащитник</div></div><div class="pl__club">Клуб<br/>Лига</div></div></div>
+      <div class="pl"><div class="pl__ph"><span class="num">4</span><span class="tag">реальное фото</span></div><div class="pl__b"><div><div class="pl__name">Имя Фамилия</div><div class="pl__pos">Защитник</div></div><div class="pl__club">Клуб<br/>Лига</div></div></div>
+      <div class="pl"><div class="pl__ph"><span class="num">7</span><span class="tag">реальное фото</span></div><div class="pl__b"><div><div class="pl__name">Имя Фамилия</div><div class="pl__pos">Вингер</div></div><div class="pl__club">Клуб<br/>Лига</div></div></div>
+      <div class="pl"><div class="pl__ph"><span class="num">1</span><span class="tag">реальное фото</span></div><div class="pl__b"><div><div class="pl__name">Имя Фамилия</div><div class="pl__pos">Вратарь</div></div><div class="pl__club">Клуб<br/>Лига</div></div></div>
+      <div class="pl"><div class="pl__ph"><span class="num">8</span><span class="tag">реальное фото</span></div><div class="pl__b"><div><div class="pl__name">Имя Фамилия</div><div class="pl__pos">Опорник</div></div><div class="pl__club">Клуб<br/>Лига</div></div></div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <a href="index.html" class="back">‹ на главную</a>
+    <span>демо · agency.ru</span>
+  </footer>
+</body>
+</html>

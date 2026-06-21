@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Страны — Спортивное агентство</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .wrap{ max-width:1100px; margin:0 auto; padding:0 clamp(20px,5vw,72px); }
+  .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  @media (max-width:900px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:480px){ .grid{ grid-template-columns:1fr; } }
+  .co{ background:var(--glass); border:1px solid var(--border); border-radius:16px; padding:24px 22px; transition:border-color .3s, transform .3s; }
+  .co:hover{ border-color:rgba(95,198,255,.35); transform:translateY(-4px); }
+  .co__flag{ font-size:30px; margin-bottom:14px; }
+  .co__name{ font-family:'Unbounded'; font-weight:500; font-size:18px; margin-bottom:6px; }
+  .co__d{ font-family:'JetBrains Mono'; font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo"><span class="dot"></span> АГЕНТСТВО</a>
+    <ul class="nav__links">
+      <li><a href="players.html">Игроки</a></li>
+      <li><a href="contracts.html">Контракты</a></li>
+      <li><a href="cases.html">Кейсы</a></li>
+      <li><a href="countries.html" class="on">Страны</a></li>
+      <li><a href="team.html">Команда</a></li>
+      <li><a href="about.html">О нас</a></li>
+    </ul>
+    <a href="about.html" class="nav__cta">Связаться</a>
+  </nav>
+
+  <header class="head reveal">
+    <div class="head__k">Раздел · География</div>
+    <h1 class="head__h">Где мы <em>работаем</em></h1>
+    <p class="head__sub">Сеть агентства охватывает несколько стран и лиг — мы ведём переговоры там, где раскроется игрок.</p>
+  </header>
+
+  <main class="wrap">
+    <div class="grid reveal" style="animation-delay:.08s">
+      <div class="co"><div class="co__flag">🇷🇺</div><div class="co__name">Россия</div><div class="co__d">РПЛ · ФНЛ</div></div>
+      <div class="co"><div class="co__flag">🇷🇸</div><div class="co__name">Сербия</div><div class="co__d">SuperLiga</div></div>
+      <div class="co"><div class="co__flag">🇹🇷</div><div class="co__name">Турция</div><div class="co__d">Süper Lig</div></div>
+      <div class="co"><div class="co__flag">🇦🇪</div><div class="co__name">ОАЭ</div><div class="co__d">UAE Pro League</div></div>
+      <div class="co"><div class="co__flag">🇰🇿</div><div class="co__name">Казахстан</div><div class="co__d">Премьер-Лига</div></div>
+      <div class="co"><div class="co__flag">🇷🇸</div><div class="co__name">Балканы</div><div class="co__d">регион</div></div>
+      <div class="co"><div class="co__flag">🇪🇺</div><div class="co__name">Европа</div><div class="co__d">скаутинг</div></div>
+      <div class="co"><div class="co__flag">🌍</div><div class="co__name">+ ещё</div><div class="co__d">по запросу</div></div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <a href="index.html" class="back">‹ на главную</a>
+    <span>демо · agency.ru</span>
+  </footer>
+</body>
+</html>

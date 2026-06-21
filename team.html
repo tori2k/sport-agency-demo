@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Команда — Спортивное агентство</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 clamp(20px,5vw,72px); }
+  .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  @media (max-width:1000px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .grid{ grid-template-columns:1fr; } }
+  .card{ background:var(--glass); border:1px solid var(--border); border-radius:20px; overflow:hidden; box-shadow:inset 0 1px 0 rgba(255,255,255,.08); transition:transform .3s, border-color .3s; }
+  .card:hover{ transform:translateY(-4px); border-color:rgba(95,198,255,.35); }
+  .card__photo{ position:relative; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, rgba(95,198,255,.10), rgba(162,128,255,.07)), #0C0F1A; border-bottom:1px solid var(--border); }
+  .card__photo .av{ width:78px;height:78px;border-radius:50%; border:1px solid rgba(95,198,255,.3); display:flex; align-items:center; justify-content:center; font-family:'Unbounded'; font-weight:500; font-size:26px; color:var(--accent); background:rgba(95,198,255,.06); }
+  .card__photo .ph{ position:absolute; bottom:11px; right:13px; font-family:'JetBrains Mono'; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); opacity:.65; }
+  .card__b{ padding:18px 20px 22px; }
+  .card__name{ font-family:'Unbounded'; font-weight:500; font-size:17px; margin-bottom:7px; }
+  .card__role{ font-family:'JetBrains Mono'; font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  .card__meta{ font-size:13px; color:var(--muted); line-height:1.5; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo"><span class="dot"></span> АГЕНТСТВО</a>
+    <ul class="nav__links">
+      <li><a href="players.html">Игроки</a></li>
+      <li><a href="contracts.html">Контракты</a></li>
+      <li><a href="cases.html">Кейсы</a></li>
+      <li><a href="countries.html">Страны</a></li>
+      <li><a href="team.html" class="on">Команда</a></li>
+      <li><a href="about.html">О нас</a></li>
+    </ul>
+    <a href="about.html" class="nav__cta">Связаться</a>
+  </nav>
+
+  <header class="head reveal">
+    <div class="head__k">Раздел · Команда</div>
+    <h1 class="head__h">Люди за <em>результатом</em></h1>
+    <p class="head__sub">Небольшая команда, которая ведёт карьеры игроков: переговоры, контракты, скаутинг и работа с клубами.</p>
+  </header>
+
+  <main class="wrap">
+    <div class="grid reveal" style="animation-delay:.08s">
+      <div class="card"><div class="card__photo"><span class="av">ОБ</span><span class="ph">фото</span></div>
+        <div class="card__b"><div class="card__name">Имя Фамилия</div><div class="card__role">Основатель · гл. агент</div><div class="card__meta">Стратегия карьер и ключевые переговоры.</div></div></div>
+      <div class="card"><div class="card__photo"><span class="av">ЮР</span><span class="ph">фото</span></div>
+        <div class="card__b"><div class="card__name">Имя Фамилия</div><div class="card__role">Спортивный юрист</div><div class="card__meta">Контракты, права игрока, защита сделок.</div></div></div>
+      <div class="card"><div class="card__photo"><span class="av">СК</span><span class="ph">фото</span></div>
+        <div class="card__b"><div class="card__name">Имя Фамилия</div><div class="card__role">Скаут</div><div class="card__meta">Поиск талантов и анализ клубов.</div></div></div>
+      <div class="card"><div class="card__photo"><span class="av">МН</span><span class="ph">фото</span></div>
+        <div class="card__b"><div class="card__name">Имя Фамилия</div><div class="card__role">Менеджер по клубам</div><div class="card__meta">Связь с клубами и сопровождение переходов.</div></div></div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <a href="index.html" class="back">‹ на главную</a>
+    <span>демо · agency.ru</span>
+  </footer>
+</body>
+</html>
