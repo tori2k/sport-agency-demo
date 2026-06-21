@@ -17,6 +17,12 @@
   /* затемнение в конце наезда — частичное, объект остаётся виден под кнопкой */
   .stage__fade{ position:absolute; inset:0; background:#06070D; opacity:0; pointer-events:none;
     transition:opacity .6s ease; transition-delay:.25s; z-index:8; }
+  /* чёткое фото-досье для «документных» разделов — проявляется при наезде */
+  .stage__detail{ position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat;
+    opacity:0; pointer-events:none; transform:scale(1.06); transform-origin:50% 55%;
+    transition:opacity .6s ease, transform 1.1s cubic-bezier(.4,0,.2,1); transition-delay:.2s; z-index:7; }
+  .stage__detail::after{ content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(6,7,13,.25), transparent 35%, rgba(6,7,13,.45)); }
 
   .hot{ position:absolute; z-index:6; transform:translate(-50%,-50%); transition:opacity .3s ease; }
   .hot__dot{ position:relative; width:18px; height:18px; }
@@ -64,8 +70,33 @@
   .stage.zooming .stage__zoom{ transform:scale(2.9); }
   .stage.zooming .hot, .stage.zooming .hint{ opacity:0; pointer-events:none; }
   .stage.zooming .stage__fade{ opacity:.5; }
+  /* документный наезд: показываем чёткое фото-досье, затемнение слабее */
+  .stage.zooming.detail .stage__detail{ opacity:1; transform:scale(1); }
+  .stage.zooming.detail .stage__fade{ opacity:.2; }
 
-  @media (prefers-reduced-motion:reduce){ .stage__zoom, .stage__fade{ transition:none; } }
+  /* ===== Прелоадер (грузит тяжёлую сцену, даёт обратную связь) ===== */
+  .loader{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    background:radial-gradient(900px 500px at 50% 38%, #0B0E18, #06070D 70%);
+    transition:opacity .7s ease, visibility .7s; }
+  .loader.done{ opacity:0; visibility:hidden; }
+  .loader__logo{ display:flex; align-items:center; gap:13px; font-family:'Unbounded'; font-weight:500; font-size:23px; letter-spacing:1.5px; color:var(--text); }
+  .loader__logo .dot{ width:21px; height:21px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #8FD8FF, #5FC6FF 55%, #06070D 100%); animation:lpulse 1.7s ease-in-out infinite; }
+  @keyframes lpulse{ 0%,100%{ box-shadow:0 0 16px 3px rgba(95,198,255,.40);} 50%{ box-shadow:0 0 34px 8px rgba(95,198,255,.80);} }
+  .loader__bar{ width:210px; height:2px; background:rgba(255,255,255,.10); border-radius:2px; overflow:hidden; }
+  .loader__bar i{ display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--violet)); box-shadow:0 0 12px rgba(95,198,255,.6); transition:width .35s cubic-bezier(.4,0,.2,1); }
+  .loader__pct{ font-family:'JetBrains Mono'; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); }
+
+  /* ===== Showcase под сценой: девайс-мокап ===== */
+  .showcase{ display:grid; grid-template-columns:1fr 1.12fr; gap:clamp(28px,5vw,64px); align-items:center;
+    max-width:1240px; margin:0 auto; padding:clamp(64px,9vw,116px) clamp(20px,5vw,72px); }
+  .showcase__k{ font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  .showcase h2{ font-size:clamp(30px,4.4vw,50px); line-height:1.04; margin-bottom:18px; }
+  .showcase p{ font-size:clamp(15px,1.4vw,17px); line-height:1.62; color:var(--muted); max-width:440px; }
+  .showcase__img{ position:relative; border-radius:18px; overflow:hidden; border:1px solid var(--border); box-shadow:0 30px 80px rgba(0,0,0,.5); }
+  .showcase__img img{ display:block; width:100%; height:auto; }
+  @media (max-width:860px){ .showcase{ grid-template-columns:1fr; gap:30px; } }
+
+  @media (prefers-reduced-motion:reduce){ .stage__zoom, .stage__fade, .stage__detail, .loader{ transition:none; } }
   @media (max-width:680px){
     .hot__label{ display:none; }
     .stage{ height:62vh; }
@@ -75,35 +106,41 @@
 </head>
 <body>
 
+  <!-- Прелоадер: ждёт загрузку сцены, затем плавно уходит -->
+  <div class="loader" id="loader">
+    <div class="loader__logo"><span class="dot"></span> АГЕНТСТВО</div>
+    <div class="loader__bar"><i id="lbar"></i></div>
+    <div class="loader__pct" id="lpct">Загрузка сцены · 0%</div>
+  </div>
+
   <nav class="nav">
     <a href="index.html" class="nav__logo"><span class="dot"></span> АГЕНТСТВО</a>
     <ul class="nav__links">
+      <li><a href="index.html" class="on">Главная</a></li>
       <li><a href="players.html">Игроки</a></li>
-      <li><a href="contracts.html">Контракты</a></li>
-      <li><a href="cases.html">Кейсы</a></li>
-      <li><a href="countries.html">Страны</a></li>
-      <li><a href="team.html">Команда</a></li>
       <li><a href="about.html">О нас</a></li>
+      <li><a href="contact.html">Контакты</a></li>
     </ul>
-    <a href="about.html" class="nav__cta">Связаться</a>
+    <a href="contact.html" class="nav__cta">Связаться</a>
   </nav>
 
   <div class="stage" id="stage">
     <div class="stage__zoom" id="zoom"></div>
+    <div class="stage__detail" id="detail"></div>
     <div class="stage__fade"></div>
 
     <!-- Ноутбук → Игроки -->
-    <a class="hot hot--left" data-x="77%" data-y="74%" data-cta="Перейти на сайт" data-kick="Игроки" href="players.html">
+    <a class="hot hot--left" data-x="77%" data-y="74%" data-cta="Перейти на сайт" data-kick="Игроки" data-detail="desk-players.jpg" href="players.html">
       <div class="hot__dot"></div>
       <div class="hot__label" style="left:30px"><span class="hot__num">01</span><span class="hot__name">Игроки</span><span class="hot__hint">карточки · статистика</span></div>
     </a>
     <!-- Папки → Контракты -->
-    <a class="hot" data-x="14%" data-y="80%" data-cta="Открыть документ" data-kick="Контракты" href="contracts.html">
+    <a class="hot" data-x="14%" data-y="80%" data-cta="Открыть документ" data-kick="Контракты" data-detail="doc-contracts.jpg" href="contracts.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">02</span><span class="hot__name">Контракты</span><span class="hot__hint">досье · документы</span></div>
     </a>
-    <!-- Стол с ноутбуком → Кейсы -->
-    <a class="hot" data-x="37%" data-y="56%" data-cta="Перейти на сайт" data-kick="Кейсы" href="cases.html">
+    <!-- Трофей → Кейсы -->
+    <a class="hot" data-x="6%" data-y="46%" data-cta="Перейти на сайт" data-kick="Кейсы" href="cases.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">03</span><span class="hot__name">Кейсы</span><span class="hot__hint">переходы · результаты</span></div>
     </a>
@@ -113,9 +150,14 @@
       <div class="hot__label"><span class="hot__num">04</span><span class="hot__name">Страны</span><span class="hot__hint">география работы</span></div>
     </a>
     <!-- Джерси → О нас -->
-    <a class="hot" data-x="52%" data-y="27%" data-cta="Открыть документ" data-kick="О нас" href="about.html">
+    <a class="hot" data-x="52%" data-y="38%" data-cta="Открыть раздел" data-kick="О нас" data-detail="room-about.jpg" href="about.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">05</span><span class="hot__name">О нас</span><span class="hot__hint">история · философия</span></div>
+    </a>
+    <!-- Стол с лампой → Команда -->
+    <a class="hot" data-x="62%" data-y="62%" data-cta="Перейти на сайт" data-kick="Команда" data-detail="device-team.jpg" href="team.html">
+      <div class="hot__dot"></div>
+      <div class="hot__label"><span class="hot__num">06</span><span class="hot__name">Команда</span><span class="hot__hint">люди · роли</span></div>
     </a>
 
     <div class="hint"><span class="pulse"></span> Нажмите на объект — камера приблизится, затем откройте раздел</div>
@@ -129,9 +171,44 @@
     </div>
   </div>
 
+  <!-- Showcase под сценой: реальный вид сайта на устройстве -->
+  <section class="showcase">
+    <div>
+      <div class="showcase__k">Внутренние страницы</div>
+      <h2>Вау-главная — <em>быстрые</em> разделы</h2>
+      <p>Атмосфера и погружение остаются на главной, а каждый раздел открывается как обычный быстрый сайт — без долгой загрузки тяжёлых рендеров и легко обновляется через админку.</p>
+    </div>
+    <div class="showcase__img"><img src="device-team.jpg" alt="Раздел «Команда» на ноутбуке" loading="lazy" /></div>
+  </section>
+
   <script>
+    /* ===== Прелоадер: ждём реальную загрузку сцены ===== */
+    (function(){
+      const loader = document.getElementById('loader');
+      const bar = document.getElementById('lbar');
+      const pct = document.getElementById('lpct');
+      let p = 0, finished = false;
+      const tick = setInterval(() => {              // плавный «прогрев» до 90%, пока грузится
+        if (p < 90){ p += Math.max(.6, (90 - p) * .045); update(); }
+      }, 60);
+      function update(){ bar.style.width = p + '%'; pct.textContent = 'Загрузка сцены · ' + Math.round(p) + '%'; }
+      function finish(){
+        if (finished) return; finished = true;
+        clearInterval(tick); p = 100; bar.style.width = '100%';
+        pct.textContent = 'Готово · 100%';
+        setTimeout(() => loader.classList.add('done'), 280);
+      }
+      const img = new Image();
+      img.onload = finish; img.onerror = finish;
+      img.src = 'scene.png';
+      if (img.complete) finish();
+      window.addEventListener('load', finish);
+      setTimeout(finish, 7000);                     // страховка, если изображение не отдалось
+    })();
+
     const stage = document.getElementById('stage');
     const zoom  = document.getElementById('zoom');
+    const detail = document.getElementById('detail');
     const ctaLayer = document.getElementById('ctaLayer');
     const ctaGo = document.getElementById('ctaGo');
     const ctaText = document.getElementById('ctaText');
@@ -139,15 +216,27 @@
     const ctaBack = document.getElementById('ctaBack');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function back(){ stage.classList.remove('zooming'); ctaLayer.classList.remove('show'); }
+    function back(){ stage.classList.remove('zooming','detail'); ctaLayer.classList.remove('show'); }
+    // сброс «наезда» при каждом показе страницы (в т.ч. возврат «назад» из bfcache)
+    window.addEventListener('pageshow', back);
 
     document.querySelectorAll('.hot').forEach((a) => {
+      // позиция точки на сцене (координаты также служат центром наезда)
+      a.style.left = a.dataset.x;
+      a.style.top  = a.dataset.y;
       a.addEventListener('click', (e) => {
         const href = a.getAttribute('href');
         if (reduce){ return; }            // без анимации — обычный переход
         e.preventDefault();
         // ШАГ 1 — наезд на объект
         zoom.style.transformOrigin = a.dataset.x + ' ' + a.dataset.y;
+        // документные разделы — проявляем чёткое фото-досье поверх сцены
+        if (a.dataset.detail){
+          detail.style.backgroundImage = "url('" + a.dataset.detail + "')";
+          stage.classList.add('detail');
+        } else {
+          stage.classList.remove('detail');
+        }
         stage.classList.add('zooming');
         // подготовить ШАГ 2 — кнопка перейти
         ctaGo.setAttribute('href', href);

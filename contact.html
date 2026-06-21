@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Контакты — Спортивное агентство</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo"><span class="dot"></span> АГЕНТСТВО</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="players.html">Игроки</a></li>
+      <li><a href="about.html">О нас</a></li>
+      <li><a href="contact.html" class="on">Контакты</a></li>
+    </ul>
+    <a href="contact.html" class="nav__cta">Связаться</a>
+  </nav>
+
+  <header class="head reveal">
+    <div class="head__k">Раздел · Контакты</div>
+    <h1 class="head__h">Поговорим о <em>карьере</em></h1>
+    <p class="head__sub">Игрок, родитель или клуб — напишите нам. Отвечаем в течение дня и обсуждаем сотрудничество без обязательств.</p>
+  </header>
+
+  <main class="ct-wrap reveal" style="animation-delay:.08s">
+    <div class="ct-card">
+      <div class="ct-row"><span class="k">Телефон / Telegram</span><span class="v"><a href="tel:+70000000000">+7 000 000-00-00</a> · <a href="#">@agency</a></span></div>
+      <div class="ct-row"><span class="k">Почта</span><span class="v"><a href="mailto:info@agency.ru">info@agency.ru</a></span></div>
+      <div class="ct-row"><span class="k">Офис</span><span class="v">Москва, по записи</span></div>
+      <div class="ct-row"><span class="k">Соцсети</span><span class="v"><a href="#">Instagram</a> · <a href="#">YouTube</a> · <a href="#">VK</a></span></div>
+    </div>
+
+    <form class="ct-card ct-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Отправлено ✓';">
+      <label>Имя</label>
+      <input type="text" placeholder="Как к вам обращаться" required />
+      <label>Контакт</label>
+      <input type="text" placeholder="Телефон, Telegram или почта" required />
+      <label>Сообщение</label>
+      <textarea placeholder="Коротко о себе: позиция, возраст, клуб"></textarea>
+      <button type="submit">Отправить заявку</button>
+    </form>
+  </main>
+
+  <footer class="foot">
+    <a href="index.html" class="back">‹ на главную</a>
+    <span>демо · agency.ru</span>
+  </footer>
+</body>
+</html>
