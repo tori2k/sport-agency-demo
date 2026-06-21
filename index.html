@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="style.css" />
 <style>
   .stage{ position:relative; width:100%; height:calc(100vh - 68px); min-height:480px; overflow:hidden; background:#06070D; }
-  .stage__zoom{ position:absolute; inset:0; background:url('scene.png') center/cover no-repeat;
+  .stage__zoom{ position:absolute; inset:0; background:url('scene.jpg') center/cover no-repeat;
     transition:transform 0.85s cubic-bezier(.66,0,.34,1); will-change:transform; transform-origin:50% 50%; }
   .stage__zoom::after{ content:''; position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(6,7,13,.30), transparent 30%, rgba(6,7,13,.25) 75%, rgba(6,7,13,.55)); }
@@ -130,32 +130,32 @@
     <div class="stage__fade"></div>
 
     <!-- Ноутбук → Игроки -->
-    <a class="hot hot--left" data-x="77%" data-y="74%" data-cta="Перейти на сайт" data-kick="Игроки" data-detail="desk-players.jpg" href="players.html">
+    <a class="hot hot--left" data-x="73%" data-y="64%" data-cta="Перейти на сайт" data-kick="Игроки" data-detail="desk-players.jpg" href="players.html">
       <div class="hot__dot"></div>
       <div class="hot__label" style="left:30px"><span class="hot__num">01</span><span class="hot__name">Игроки</span><span class="hot__hint">карточки · статистика</span></div>
     </a>
     <!-- Папки → Контракты -->
-    <a class="hot" data-x="14%" data-y="80%" data-cta="Открыть документ" data-kick="Контракты" data-detail="doc-contracts.jpg" href="contracts.html">
+    <a class="hot" data-x="27%" data-y="76%" data-cta="Открыть документ" data-kick="Контракты" data-detail="doc-contracts.jpg" href="contracts.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">02</span><span class="hot__name">Контракты</span><span class="hot__hint">досье · документы</span></div>
     </a>
     <!-- Трофей → Кейсы -->
-    <a class="hot" data-x="6%" data-y="46%" data-cta="Перейти на сайт" data-kick="Кейсы" href="cases.html">
+    <a class="hot" data-x="5%" data-y="49%" data-cta="Перейти на сайт" data-kick="Кейсы" href="cases.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">03</span><span class="hot__name">Кейсы</span><span class="hot__hint">переходы · результаты</span></div>
     </a>
     <!-- Глобус → Страны -->
-    <a class="hot hot--left" data-x="93%" data-y="60%" data-cta="Открыть раздел" data-kick="Страны" href="countries.html">
+    <a class="hot hot--left" data-x="88%" data-y="63%" data-cta="Открыть раздел" data-kick="Страны" href="countries.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">04</span><span class="hot__name">Страны</span><span class="hot__hint">география работы</span></div>
     </a>
     <!-- Джерси → О нас -->
-    <a class="hot" data-x="52%" data-y="38%" data-cta="Открыть раздел" data-kick="О нас" data-detail="room-about.jpg" href="about.html">
+    <a class="hot" data-x="50%" data-y="40%" data-cta="Открыть раздел" data-kick="О нас" data-detail="room-about.jpg" href="about.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">05</span><span class="hot__name">О нас</span><span class="hot__hint">история · философия</span></div>
     </a>
     <!-- Стол с лампой → Команда -->
-    <a class="hot" data-x="62%" data-y="62%" data-cta="Перейти на сайт" data-kick="Команда" data-detail="device-team.jpg" href="team.html">
+    <a class="hot" data-x="39%" data-y="60%" data-cta="Перейти на сайт" data-kick="Команда" data-detail="device-team.jpg" href="team.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">06</span><span class="hot__name">Команда</span><span class="hot__hint">люди · роли</span></div>
     </a>
@@ -200,7 +200,7 @@
       }
       const img = new Image();
       img.onload = finish; img.onerror = finish;
-      img.src = 'scene.png';
+      img.src = 'scene.jpg';
       if (img.complete) finish();
       window.addEventListener('load', finish);
       setTimeout(finish, 7000);                     // страховка, если изображение не отдалось
