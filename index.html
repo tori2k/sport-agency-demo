@@ -10,14 +10,13 @@
 <link rel="stylesheet" href="style.css" />
 <style>
   .stage{ position:relative; width:100%; height:calc(100vh - 68px); min-height:480px; overflow:hidden; background:#06070D; }
-  /* фон-слой, который масштабируется при наезде */
   .stage__zoom{ position:absolute; inset:0; background:url('scene.png') center/cover no-repeat;
     transition:transform 0.85s cubic-bezier(.66,0,.34,1); will-change:transform; transform-origin:50% 50%; }
   .stage__zoom::after{ content:''; position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(6,7,13,.30), transparent 30%, rgba(6,7,13,.25) 75%, rgba(6,7,13,.55)); }
-  /* затемнение в конце наезда */
+  /* затемнение в конце наезда — частичное, объект остаётся виден под кнопкой */
   .stage__fade{ position:absolute; inset:0; background:#06070D; opacity:0; pointer-events:none;
-    transition:opacity .55s ease; transition-delay:.3s; z-index:8; }
+    transition:opacity .6s ease; transition-delay:.25s; z-index:8; }
 
   .hot{ position:absolute; z-index:6; transform:translate(-50%,-50%); transition:opacity .3s ease; }
   .hot__dot{ position:relative; width:18px; height:18px; }
@@ -43,17 +42,34 @@
     transition:opacity .3s ease; }
   .hint .pulse{ width:8px;height:8px;border-radius:50%;background:var(--accent); box-shadow:0 0 10px 3px rgba(95,198,255,.6); }
 
+  /* ===== Слой кнопки «Перейти» (2-й шаг) ===== */
+  .cta-layer{ position:absolute; inset:0; z-index:9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    opacity:0; pointer-events:none; transition:opacity .45s ease; transition-delay:.55s; }
+  .cta-layer.show{ opacity:1; pointer-events:auto; }
+  .cta-kick{ font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--accent);
+    background:rgba(8,11,20,.6); border:1px solid rgba(95,198,255,.3); border-radius:999px; padding:8px 16px; backdrop-filter:blur(10px); }
+  .cta-go{ display:inline-flex; align-items:center; gap:14px; padding:18px 36px; border-radius:999px; cursor:pointer;
+    background:rgba(255,255,255,.96); color:#06070D; font-family:'Unbounded'; font-weight:500; font-size:18px; letter-spacing:1px; text-transform:uppercase;
+    box-shadow:0 0 0 8px rgba(95,198,255,.12), 0 20px 60px rgba(0,0,0,.55), 0 0 50px rgba(95,198,255,.35);
+    transition:transform .25s, box-shadow .25s; }
+  .cta-go:hover{ transform:translateY(-2px); box-shadow:0 0 0 10px rgba(95,198,255,.16), 0 24px 70px rgba(0,0,0,.6), 0 0 60px rgba(95,198,255,.5); }
+  .cta-go .arr{ color:#0A66B0; font-size:22px; }
+  .cta-sub{ font-family:'JetBrains Mono'; font-size:11px; letter-spacing:1.5px; color:#C9CEDC; }
+  .cta-back{ position:absolute; top:22px; left:22px; display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+    font-family:'JetBrains Mono'; font-size:12px; letter-spacing:1px; color:var(--muted); background:var(--glass);
+    border:1px solid var(--border); border-radius:999px; padding:9px 16px; backdrop-filter:blur(12px); transition:color .2s, border-color .2s; }
+  .cta-back:hover{ color:var(--accent); border-color:rgba(95,198,255,.4); }
+
   /* состояние «наезд» */
   .stage.zooming .stage__zoom{ transform:scale(2.9); }
   .stage.zooming .hot, .stage.zooming .hint{ opacity:0; pointer-events:none; }
-  .stage.zooming .stage__fade{ opacity:1; }
+  .stage.zooming .stage__fade{ opacity:.5; }
 
-  @media (prefers-reduced-motion:reduce){
-    .stage__zoom, .stage__fade{ transition:none; }
-  }
+  @media (prefers-reduced-motion:reduce){ .stage__zoom, .stage__fade{ transition:none; } }
   @media (max-width:680px){
     .hot__label{ display:none; }
     .stage{ height:62vh; }
+    .cta-go{ font-size:15px; padding:15px 28px; }
   }
 </style>
 </head>
@@ -77,49 +93,72 @@
     <div class="stage__fade"></div>
 
     <!-- Ноутбук → Игроки -->
-    <a class="hot hot--left" data-x="77%" data-y="74%" style="left:77%; top:74%;" href="players.html">
+    <a class="hot hot--left" data-x="77%" data-y="74%" data-cta="Перейти на сайт" data-kick="Игроки" href="players.html">
       <div class="hot__dot"></div>
-      <div class="hot__label"><span class="hot__num">01</span><span class="hot__name">Игроки</span><span class="hot__hint">карточки · статистика</span></div>
+      <div class="hot__label" style="left:30px"><span class="hot__num">01</span><span class="hot__name">Игроки</span><span class="hot__hint">карточки · статистика</span></div>
     </a>
     <!-- Папки → Контракты -->
-    <a class="hot" data-x="14%" data-y="80%" style="left:14%; top:80%;" href="contracts.html">
+    <a class="hot" data-x="14%" data-y="80%" data-cta="Открыть документ" data-kick="Контракты" href="contracts.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">02</span><span class="hot__name">Контракты</span><span class="hot__hint">досье · документы</span></div>
     </a>
-    <!-- Стол с лампой → Кейсы -->
-    <a class="hot" data-x="37%" data-y="56%" style="left:37%; top:56%;" href="cases.html">
+    <!-- Стол с ноутбуком → Кейсы -->
+    <a class="hot" data-x="37%" data-y="56%" data-cta="Перейти на сайт" data-kick="Кейсы" href="cases.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">03</span><span class="hot__name">Кейсы</span><span class="hot__hint">переходы · результаты</span></div>
     </a>
     <!-- Глобус → Страны -->
-    <a class="hot hot--left" data-x="93%" data-y="60%" style="left:93%; top:60%;" href="countries.html">
+    <a class="hot hot--left" data-x="93%" data-y="60%" data-cta="Открыть раздел" data-kick="Страны" href="countries.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">04</span><span class="hot__name">Страны</span><span class="hot__hint">география работы</span></div>
     </a>
     <!-- Джерси → О нас -->
-    <a class="hot" data-x="52%" data-y="27%" style="left:52%; top:27%;" href="about.html">
+    <a class="hot" data-x="52%" data-y="27%" data-cta="Открыть документ" data-kick="О нас" href="about.html">
       <div class="hot__dot"></div>
       <div class="hot__label"><span class="hot__num">05</span><span class="hot__name">О нас</span><span class="hot__hint">история · философия</span></div>
     </a>
 
-    <div class="hint"><span class="pulse"></span> Наведите на объект и нажмите — откроется раздел</div>
+    <div class="hint"><span class="pulse"></span> Нажмите на объект — камера приблизится, затем откройте раздел</div>
+
+    <!-- Слой 2-го шага: кнопка перейти -->
+    <div class="cta-layer" id="ctaLayer">
+      <button class="cta-back" id="ctaBack">‹ назад</button>
+      <span class="cta-kick" id="ctaKick">Раздел</span>
+      <a class="cta-go" id="ctaGo" href="#"><span id="ctaText">Перейти</span><span class="arr">→</span></a>
+      <span class="cta-sub">нажмите, чтобы открыть страницу</span>
+    </div>
   </div>
 
   <script>
     const stage = document.getElementById('stage');
     const zoom  = document.getElementById('zoom');
+    const ctaLayer = document.getElementById('ctaLayer');
+    const ctaGo = document.getElementById('ctaGo');
+    const ctaText = document.getElementById('ctaText');
+    const ctaKick = document.getElementById('ctaKick');
+    const ctaBack = document.getElementById('ctaBack');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function back(){ stage.classList.remove('zooming'); ctaLayer.classList.remove('show'); }
+
     document.querySelectorAll('.hot').forEach((a) => {
       a.addEventListener('click', (e) => {
         const href = a.getAttribute('href');
-        if (reduce) return; // обычный мгновенный переход
+        if (reduce){ return; }            // без анимации — обычный переход
         e.preventDefault();
-        // камера «влетает» в точку объекта
+        // ШАГ 1 — наезд на объект
         zoom.style.transformOrigin = a.dataset.x + ' ' + a.dataset.y;
         stage.classList.add('zooming');
-        setTimeout(() => { window.location.href = href; }, 820);
+        // подготовить ШАГ 2 — кнопка перейти
+        ctaGo.setAttribute('href', href);
+        ctaText.textContent = a.dataset.cta;
+        ctaKick.textContent = 'Раздел · ' + a.dataset.kick;
+        ctaLayer.classList.add('show');
       });
     });
+
+    ctaBack.addEventListener('click', back);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') back(); });
   </script>
 
 </body>
